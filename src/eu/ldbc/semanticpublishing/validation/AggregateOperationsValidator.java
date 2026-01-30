@@ -131,7 +131,7 @@ public class AggregateOperationsValidator extends Validator {
 		for( File file : files ) {
 			if( file.getName().endsWith(".nq")) {
 				InputStream input = new FileInputStream(file);
-				RdfUtils.postStatements(endpoint, RdfUtils.CONTENT_TYPE_SESAME_NQUADS, input);
+				RdfUtils.postStatements(endpoint, RdfUtils.CONTENT_TYPE_NQUADS, input);
 				processedNQfiles++;
 			}
 		}

@@ -335,8 +335,8 @@ public class TestDriver {
 				if( file.getName().endsWith(".nq")) {
 					System.out.print("\tloading " + file.getName());
 					InputStream input = new FileInputStream(file);
-					
-					RdfUtils.postStatements(endpoint, RdfUtils.CONTENT_TYPE_SESAME_NQUADS, input);
+
+					RdfUtils.postStatements(endpoint, RdfUtils.CONTENT_TYPE_NQUADS, input);
 					System.out.println();
 				}
 				if( file.getName().endsWith(".ttl")) {
