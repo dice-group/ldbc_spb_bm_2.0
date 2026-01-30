@@ -354,18 +354,14 @@ public class TestDriver {
 	private void executeScripts(boolean enable, String scriptsSubFolder) {
 		if (enable) {
 			try {
-				String sciptsPath = configuration.getString(Configuration.SCRIPTS_PATH) + File.separator + scriptsSubFolder;
-				List<File> scriptFiles = new ArrayList<File>();
-				FileUtils.collectFilesList2(sciptsPath, scriptFiles, (FileUtils.isWindowsOS() ? "bat" : "sh"), true);		
-				Collections.sort(scriptFiles);
-				
-				if (scriptFiles.size() > 0) {
-					System.out.println("Executing custom scripts (" + scriptsSubFolder + ")...");
-				}
-			
+				File scriptsPath = Path.of(Configuration.SCRIPTS_PATH).resolve(scriptsSubFolder).toFile();
+                final var scriptFiles = scriptsPath.listFiles();
+                if (scriptFiles == null) return;
+                Arrays.sort(scriptFiles, File::compareTo);
 				for( File file : scriptFiles ) {
 					System.out.println("\texecuting " + scriptsSubFolder + " script: " + file.getName() + " parameters: " + propertiesFile);
-					ShellUtil.execute(sciptsPath + " " + propertiesFile, file.getName(), true);
+                    final var process = Runtime.getRuntime().exec(new String[]{file.toString()}, null, scriptsPath);
+                    process.waitFor();
 				}
 			} catch (NullPointerException npe) {
 				System.out.println("Warning : Possible wrong configuration for property 'scriptsPath' in " + Path.of(propertiesFile).getFileName().toString());
