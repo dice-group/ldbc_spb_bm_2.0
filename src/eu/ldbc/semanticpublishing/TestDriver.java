@@ -113,9 +113,7 @@ public class TestDriver {
 	
 	private RandomUtil initializeRandomUtil(String datasetsPath, long seed, int yearSeed, int generorPeriodYears) {
 		//File WordsDictionary.txt is one level up
-		String ontPath = FileUtils.normalizePath(datasetsPath);
-		String oneLevelUp = ontPath.substring(0, ontPath.lastIndexOf(File.separator) + 1);		
-		String filePath = oneLevelUp + "dictionaries" + File.separator + "WordsDictionary.txt";		
+        final var filePath = Path.of(datasetsPath).getParent().resolve("dictionaries").resolve("WordsDictionary.txt").toString();
 		
 		return new RandomUtil(filePath, seed, yearSeed, generorPeriodYears);
 	}
