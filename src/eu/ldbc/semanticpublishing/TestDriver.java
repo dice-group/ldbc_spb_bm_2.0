@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Constructor;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -367,14 +368,12 @@ public class TestDriver {
 					ShellUtil.execute(sciptsPath + " " + propertiesFile, file.getName(), true);
 				}
 			} catch (NullPointerException npe) {
-				System.out.println("Warning : Possible wrong configuration for property 'scriptsPath' (test.properties)...");
-//				npe.printStackTrace();
-			} catch (IOException ioe) {			
-				ioe.printStackTrace();
-			} catch (InterruptedException ie) {
-				ie.printStackTrace();
-			}
-		}
+				System.out.println("Warning : Possible wrong configuration for property 'scriptsPath' in " + Path.of(propertiesFile).getFileName().toString());
+				npe.printStackTrace();
+			} catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
 	}
 	
 	private void generateCreativeWorks(boolean enable) throws IOException, InterruptedException {
