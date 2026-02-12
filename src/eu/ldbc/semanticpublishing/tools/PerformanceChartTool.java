@@ -104,13 +104,13 @@ public class PerformanceChartTool extends ChartToolBase {
 				value = Double.parseDouble(line.trim().substring(0, line.trim().indexOf(CURRENT_WRITES_STRING.toLowerCase())).trim());
 				currentWrites.add(value);
 			} else if (line.contains(AVERAGE_WRITES_STRING.toLowerCase())) {
-				value = Double.parseDouble(line.trim().substring(0, line.trim().indexOf(AVERAGE_WRITES_STRING.toLowerCase())).trim());
+				value = Double.parseDouble(line.trim().substring(0, line.trim().indexOf(AVERAGE_WRITES_STRING.toLowerCase())).trim().replaceAll(",", "."));
 				averageWrites.add(value);
 			} else if (line.contains(CURRENT_READS_STRING.toLowerCase())) {
 				value = Double.parseDouble(line.trim().substring(0, line.trim().indexOf(CURRENT_READS_STRING.toLowerCase())).trim());
 				currentReads.add(value);
 			} else if (line.contains(AVERAGE_READS_STRING.toLowerCase())) {
-				value = Double.parseDouble(line.trim().substring(0, line.trim().indexOf(AVERAGE_READS_STRING.toLowerCase())).trim());
+				value = Double.parseDouble(line.trim().substring(0, line.trim().indexOf(AVERAGE_READS_STRING.toLowerCase())).trim().replaceAll(",", "."));
 				averageReads.add(value);
 			} else {
 				continue;
