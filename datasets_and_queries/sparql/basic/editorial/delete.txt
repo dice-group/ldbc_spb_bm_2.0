@@ -33,4 +33,16 @@ PREFIX fb:<http://rdf.freebase.com/ns/>
 #  Query Description : 
 #  Drops the entire Creative Work graph
 
-CLEAR GRAPH {{{cwGraphUri}}}
+DELETE {
+    ?cw ?p ?o .
+    ?primaryContent ?pc_p ?pc_o .
+}
+WHERE {
+    BIND({{cwUri}} AS ?cw)
+    ?cw ?p ?o .
+
+    OPTIONAL {
+        ?cw bbc:primaryContentOf ?primaryContent .
+        ?primaryContent ?pc_p ?pc_o .
+    }
+}

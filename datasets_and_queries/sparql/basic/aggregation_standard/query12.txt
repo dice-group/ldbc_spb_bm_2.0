@@ -40,17 +40,19 @@ PREFIX ldbcspb:<http://www.ldbcouncil.org/spb#>
 SELECT ?cworkGraph ?s ?p ?o
 WHERE {
   {
-    SELECT DISTINCT ?creativeWork ?cworkGraph
+    SELECT DISTINCT ?creativeWork
     WHERE {
         ?creativeWork cwork:tag {{{creativeWorkTag}}} ;
-                      a cwork:CreativeWork .
-        GRAPH ?cworkGraph { ?creativeWork cwork:dateModified ?modified . }
+                      a cwork:CreativeWork ;
+                      cwork:dateModified ?modified .
       }
       ORDER BY DESC(?modified)
       LIMIT 10
   }
 
-  GRAPH ?cworkGraph { ?s ?p ?o . }
+  BIND(?creativeWork AS ?s)
+  BIND("" AS ?cworkGraph)
+  ?s ?p ?o .
 
-} 
-ORDER BY ?cworkGraph ?s ?p ?o 
+}
+ORDER BY ?cworkGraph ?s ?p ?o

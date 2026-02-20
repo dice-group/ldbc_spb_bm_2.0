@@ -34,29 +34,27 @@ PREFIX fb:<http://rdf.freebase.com/ns/>
 #  Inserts a Creative Work in its own graph
 
 INSERT DATA {   
-  GRAPH {{{cwGraphUri}}} {   
-    {{{cwUri}}} a {{{cwType}}} ; 
+    {{{cwUri}}} a {{{cwType}}} ;
       cwork:title {{{cwTitle}}} ;
-      cwork:shortTitle {{{cwShortTitle}}} ; 
-      cwork:category {{{cwCategory}}} ; 
-      cwork:description {{{cwDescription}}} ; 
+      cwork:shortTitle {{{cwShortTitle}}} ;
+      cwork:category {{{cwCategory}}} ;
+      cwork:description {{{cwDescription}}} ;
       {{#cwAboutsList}}
-      cwork:about {{{cwAboutUri}}} ; 
+      cwork:about {{{cwAboutUri}}} ;
       {{/cwAboutsList}}
       {{#cwMentionsList}}
       cwork:mentions {{{cwMentionsUri}}} ;
       {{/cwMentionsList}}
-      cwork:audience {{{cwAudienceType}}} ; 
+      cwork:audience {{{cwAudienceType}}} ;
       cwork:liveCoverage {{{cwLiveCoverage}}} ;
       {{#cwPrimaryFormatList}}
-      cwork:primaryFormat {{{cwPrimaryFormat}}} ; 
+      cwork:primaryFormat {{{cwPrimaryFormat}}} ;
       {{/cwPrimaryFormatList}}
-      cwork:dateCreated {{{cwDateCreated}}} ; 
-      cwork:dateModified {{{cwDateModified}}} ; 
+      cwork:dateCreated {{{cwDateCreated}}} ;
+      cwork:dateModified {{{cwDateModified}}} ;
       cwork:thumbnail {{{cwThumbnailUri}}} .
     {{#cwPrimaryContentList}}
     {{{cwUri}}} bbc:primaryContentOf {{{cwPrimaryContentUri}}} .
     {{{cwPrimaryContentUri}}} bbc:webDocumentType {{{cwWebDocumentType}}} .
-    {{/cwPrimaryContentList}} 
-  }  
-}  
+    {{/cwPrimaryContentList}}
+}

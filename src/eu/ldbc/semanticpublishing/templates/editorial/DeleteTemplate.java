@@ -30,25 +30,37 @@ public class DeleteTemplate extends MustacheTemplate implements SubstitutionPara
 		super(queryTemplates, substitutionParameters);
 		this.ru = ru;
 	}
-	
-	/**
-	 * A method for replacing mustache template : {{{cwGraphUri}}}
-	 */	
-	public String cwGraphUri() {
-		if (substitutionParameters != null) {
-			return substitutionParameters[parameterIndex++];
-		}
-		
-		long cwNextId = ru.nextInt((int)DataManager.creativeWorksNextId.get());
-		return ru.numberURI("context", cwNextId, true, true);
-	}
-	
+
+    /**
+     * A method for replacing mustache template : {{{cwGraphUri}}}
+     */
+    public String cwGraphUri() {
+        if (substitutionParameters != null) {
+            return substitutionParameters[parameterIndex++];
+        }
+
+        long cwNextId = ru.nextInt((int)DataManager.creativeWorksNextId.get());
+        return ru.numberURI("context", cwNextId, true, true);
+    }
+
+    /**
+     * A method for replacing mustache template : {{{cwUri}}}
+     */
+    public String cwUri() {
+        if (substitutionParameters != null) {
+            return substitutionParameters[parameterIndex++];
+        }
+
+        long cwNextId = ru.nextInt((int)DataManager.creativeWorksNextId.get());
+        return ru.numberURI("things", cwNextId, true, true);
+    }
+
 	@Override
 	public String generateSubstitutionParameters(BufferedWriter bw, int amount) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < amount; i++) {
 			sb.setLength(0);
-			sb.append(cwGraphUri());
+			sb.append(cwUri());
 			sb.append("\n");
 			if (bw != null) {
 				bw.write(sb.toString());
