@@ -124,7 +124,7 @@ public class TestDriver {
 			System.out.println("Loading ontologies...");
 			
 			String ontologiesPath = FileUtils.normalizePath(configuration.getString(Configuration.ONTOLOGIES_PATH));
-			String endpoint = configuration.getString(Configuration.ENDPOINT_UPDATE_URL);
+			String endpoint = configuration.getString(Configuration.ENDPOINT_GRAPH_STORE_URL);
 			
 			List<File> collectedFiles = new ArrayList<File>();
 			FileUtils.collectFilesList2(ontologiesPath, collectedFiles, "ttl", true);
@@ -171,7 +171,7 @@ public class TestDriver {
 			System.out.println("Loading reference datasets...");
 			
 			String datasetsPath = FileUtils.normalizePath(configuration.getString(Configuration.REFERENCE_DATASETS_PATH));
-			String endpoint = configuration.getString(Configuration.ENDPOINT_UPDATE_URL);
+			String endpoint = configuration.getString(Configuration.ENDPOINT_GRAPH_STORE_URL);
 			
 			List<File> collectedFiles = new ArrayList<File>();
 			FileUtils.collectFilesList2(datasetsPath, collectedFiles, "ttl", true);
@@ -322,7 +322,7 @@ public class TestDriver {
 		if (enable) {
 			System.out.println("Loading Creative Works...");
 			
-			String endpoint = configuration.getString(Configuration.ENDPOINT_UPDATE_URL);
+			String endpoint = configuration.getString(Configuration.ENDPOINT_GRAPH_STORE_URL);
 			
 			File[] files = new File(configuration.getString(Configuration.CREATIVE_WORKS_PATH)).listFiles();
 			

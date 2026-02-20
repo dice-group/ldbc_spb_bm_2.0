@@ -19,6 +19,7 @@ public class Configuration {
 	
 	public static final String ENDPOINT_URL = "endpointURL";
 	public static final String ENDPOINT_UPDATE_URL = "endpointUpdateURL";
+    public static final String ENDPOINT_GRAPH_STORE_URL = "endpointGraphStoreURL";
 	public static final String DATASET_SIZE_TRIPLES = "datasetSize";
 	public static final String AGGREGATION_AGENTS_COUNT = "aggregationAgents";
 	public static final String EDITORIAL_AGENTS_COUNT = "editorialAgents";
@@ -77,6 +78,7 @@ public class Configuration {
 	public Configuration() {
 		properties.setProperty(ENDPOINT_URL, "" );
 		properties.setProperty(ENDPOINT_UPDATE_URL, "" );
+        properties.setProperty(ENDPOINT_GRAPH_STORE_URL, "" );
 		properties.setProperty(DATASET_SIZE_TRIPLES, "" );
 		properties.setProperty(AGGREGATION_AGENTS_COUNT, "16" );
 		properties.setProperty(EDITORIAL_AGENTS_COUNT, "2" );

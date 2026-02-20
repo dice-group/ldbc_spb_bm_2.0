@@ -25,7 +25,7 @@
     fuseki:endpoint [
         # SPARQL Graph Store Protcol (read and write)
         fuseki:operation fuseki:gsp_rw ;
-        fuseki:name "update"
+        fuseki:name "graph"
     ] ;
     .
 
