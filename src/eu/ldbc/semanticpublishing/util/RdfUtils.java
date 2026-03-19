@@ -10,9 +10,10 @@ import org.eclipse.rdf4j.rio.RDFHandlerException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 /**
  * Utility class for configuring the POST http request with different serialization content types.
@@ -23,6 +24,7 @@ public class RdfUtils {
 	
 	public static final String CONTENT_TYPE_RDFXML = "application/rdf+xml";
 	public static final String CONTENT_TYPE_NQUADS = "application/n-quads";
+    public static final String CONTENT_TYPE_NTRIPLES = "application/n-triples";
 	public static final String CONTENT_TYPE_SESAME_NQUADS = "text/x-nquads";
 	public static final String CONTENT_TYPE_TRIG = "application/x-trig";
 	public static final String CONTENT_TYPE_TURTLE = "text/turtle";
@@ -31,41 +33,25 @@ public class RdfUtils {
 										  "bbc:"  , "<http://www.bbc.co.uk/ontologies/bbc/>"};
 
 	public static void postStatements(String endpoint, String contentType, InputStream input) throws IOException {
-		
-		URL url = new URL(endpoint);
-		HttpURLConnection httpUrlConnection = (HttpURLConnection)url.openConnection();
-		httpUrlConnection.setDefaultUseCaches(false);
-		httpUrlConnection.setUseCaches(false);
-		httpUrlConnection.setDoOutput(input != null);
+        final var request = HttpRequest.newBuilder()
+                .version(HttpClient.Version.HTTP_1_1)
+                .uri(URI.create(endpoint))
+                .POST(HttpRequest.BodyPublishers.ofInputStream(() -> input))
+                .header("Content-Type", contentType)
+                .header("Accept", "*/*")
+                .build();
+        try (HttpClient client = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build()) {
+            final var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() < 200 || response.statusCode() >= 300) {
+                System.out.println(response.body());
+                throw new IOException("Posting statements received error code : " + response.statusCode() + " from server.");
+            }
 
-		httpUrlConnection.setRequestMethod("POST");
-		httpUrlConnection.setRequestProperty("Content-Type", contentType);
-//		httpUrlConnection.setRequestProperty("Accept", "*/*");
 
-		if(input != null) {
-			OutputStream outStream = httpUrlConnection.getOutputStream();
-			
-			try {
-				int b; 
-				byte[] buffer = new byte[READ_BUFFER_SIZE_BYTES];
-				while((b = input.read(buffer)) >= 0) {
-					outStream.write(buffer, 0, b);
-				}
-				outStream.flush();
-			}
-			finally {
-				input.close();
-				outStream.close();
-			}
-		}
-		
-		int code = httpUrlConnection.getResponseCode();
-		if (code < 200 || code >= 300) {
-			throw new IOException("Posting statements received error code : " + code + " from server.");
-		}
-		
-		httpUrlConnection.getInputStream().close();
-	}
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 	
 	/**
 	 * The method can be used to "crop" entities for a dataset file, for example depending on the size of generated data

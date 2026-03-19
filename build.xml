@@ -39,8 +39,8 @@
 		<javac srcdir="${dir.src}"
 			   destdir="${dir.bin}"
 			   debug="off"
-			   source="1.8"
-			   target="1.8"
+			   source="17"
+			   target="17"
 			   includeantruntime="false">
 			<classpath refid="classpath-lib"/>
 			<classpath refid="classpath-jfreechart-lib"/>
