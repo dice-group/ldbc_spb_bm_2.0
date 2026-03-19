@@ -35,8 +35,7 @@ PREFIX fb:<http://rdf.freebase.com/ns/>
 #  Used to validate result of single delete query
 
 ASK {
-  { {{{contextURI}}} ?p ?o . }
-  UNION
-  { {{{contextURI}}} bbc:primaryContentOf ?pc .
-    ?pc ?p ?o . }
+GRAPH {{{contextURI}}} {
+    ?s ?p ?o
+  }
 }

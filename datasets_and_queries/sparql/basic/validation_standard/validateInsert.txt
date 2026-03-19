@@ -34,15 +34,9 @@ PREFIX fb:<http://rdf.freebase.com/ns/>
 #  Query Description : 
 #  Used to validate result of single insert query
 
-SELECT ?s ?p ?o
-WHERE {
-  {
-    BIND({{{contextURI}}} AS ?s)
-    ?s ?p ?o .
-  }
-  UNION
-  {
-    {{{contextURI}}} bbc:primaryContentOf ?s .
-    ?s ?p ?o .
+SELECT * {
+  GRAPH {{{contextURI}}} {
+    ?s ?p ?o
   }
 }
+  
