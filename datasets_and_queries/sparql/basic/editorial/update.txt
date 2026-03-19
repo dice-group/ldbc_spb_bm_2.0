@@ -45,7 +45,7 @@ WHERE {
         ?cw bbc:primaryContentOf ?primaryContent .
         ?primaryContent ?pc_p ?pc_o .
     }
-}
+};
 
 INSERT DATA {
     {{{cwUri}}} a {{{cwType}}} ;

@@ -122,16 +122,16 @@ public class AggregateOperationsValidator extends Validator {
 	private void loadValidationData() throws IOException {
 		System.out.println("Loading Validation Data...");
 		
-		String endpoint = configuration.getString(Configuration.ENDPOINT_UPDATE_URL);
+		String endpoint = configuration.getString(Configuration.ENDPOINT_GRAPH_STORE_URL);
 		
 		File[] files = new File(configuration.getString(Configuration.VALIDATION_PATH)).listFiles();
 				
 		int processedNQfiles = 0;
 		Arrays.sort(files);
 		for( File file : files ) {
-			if( file.getName().endsWith(".nq")) {
+			if( file.getName().endsWith(".nt")) {
 				InputStream input = new FileInputStream(file);
-				RdfUtils.postStatements(endpoint, RdfUtils.CONTENT_TYPE_NQUADS, input);
+				RdfUtils.postStatements(endpoint, RdfUtils.CONTENT_TYPE_NTRIPLES, input);
 				processedNQfiles++;
 			}
 		}

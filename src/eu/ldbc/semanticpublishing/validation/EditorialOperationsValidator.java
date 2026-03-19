@@ -131,7 +131,11 @@ public class EditorialOperationsValidator extends Validator {
 		
 		queryType = actionQuery.getTemplateQueryType();
 		queryName = actionQuery.getTemplateFileName();
-		queryString = actionQuery.compileMustacheTemplate();		
+		queryString = actionQuery.compileMustacheTemplate();
+
+        // for some reason, the queryString escapes some of the triangle braces, this undoes it
+        queryString = queryString.replaceAll("&lt;", "<");
+        queryString = queryString.replaceAll("&gt;", ">");
 
 		queryResult = queryExecuteManager.executeQueryWithStringResult(connection, queryName, queryString, queryType, false, closeConnection);
 
