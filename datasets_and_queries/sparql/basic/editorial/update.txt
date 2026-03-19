@@ -33,22 +33,10 @@ PREFIX fb:<http://rdf.freebase.com/ns/>
 #  Query Description : 
 #  Updates a Creative Work by first dropping its entire graph and creating a new one
 
-DELETE {
-    ?cw ?p ?o .
-    ?primaryContent ?pc_p ?pc_o .
-}
-WHERE {
-    BIND({{cwUri}} AS ?cw)
-    ?cw ?p ?o .
-
-    OPTIONAL {
-        ?cw bbc:primaryContentOf ?primaryContent .
-        ?primaryContent ?pc_p ?pc_o .
-    }
-}
-
-INSERT DATA {
-    {{{cwUri}}} a {{{cwType}}} ;
+CLEAR GRAPH {{{cwGraphUri}}} ;
+INSERT DATA {   
+  GRAPH {{{cwGraphUri}}} {   
+    {{{cwUri}}} a {{{cwType}}} ; 
       cwork:title {{{cwTitle}}} ;
       cwork:shortTitle {{{cwShortTitle}}} ; 
       cwork:category {{{cwCategory}}} ; 
@@ -71,4 +59,5 @@ INSERT DATA {
     {{{cwUri}}} bbc:primaryContentOf {{{cwPrimaryContentUri}}} .
     {{{cwPrimaryContentUri}}} bbc:webDocumentType {{{cwWebDocumentType}}} .
     {{/cwPrimaryContentList}} 
-}
+  }  
+}   

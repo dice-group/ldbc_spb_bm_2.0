@@ -425,8 +425,8 @@ public class InsertTemplate extends MustacheTemplate implements SubstitutionPara
 			preInitialize();
 			initializeCreativeWorkEntity("");
 			sb.setLength(0);
-			// sb.append(cwGraphUri());
-			// sb.append(SubstitutionParametersGenerator.PARAMS_DELIMITER);
+			sb.append(cwGraphUri());
+			sb.append(SubstitutionParametersGenerator.PARAMS_DELIMITER);
 			sb.append(cwUri());
 			sb.append(SubstitutionParametersGenerator.PARAMS_DELIMITER);
 			sb.append(RdfUtils.expandNamepsacePrefix(cwType()));
