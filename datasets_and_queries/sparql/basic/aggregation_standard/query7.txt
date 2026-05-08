@@ -44,11 +44,13 @@ PREFIX ldbc:<http://www.ldbc.eu/ontologies/sempub#>
 
 SELECT ?creativeWork ?dateCreated ?title ?category ?liveCoverage ?audience 
 {
-  ?creativeWork a {{{cwType}}}  .
-  ?creativeWork cwork:dateCreated ?dateCreated .
-  ?creativeWork cwork:title ?title .
-  ?creativeWork cwork:category ?category .
-  ?creativeWork cwork:liveCoverage ?liveCoverage .
-  ?creativeWork cwork:audience ?audience .
-  {{{cwFilterdateCreatediedCondition}}} 
+  GRAPH ?context {
+      ?creativeWork a {{{cwType}}}  .
+      ?creativeWork cwork:dateCreated ?dateCreated .
+      ?creativeWork cwork:title ?title .
+      ?creativeWork cwork:category ?category .
+      ?creativeWork cwork:liveCoverage ?liveCoverage .
+      ?creativeWork cwork:audience ?audience .
+      {{{cwFilterdateCreatediedCondition}}}
+  }
 }

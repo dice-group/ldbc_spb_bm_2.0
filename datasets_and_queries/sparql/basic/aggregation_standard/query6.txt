@@ -45,10 +45,12 @@ PREFIX ldbc:<http://www.ldbc.eu/ontologies/sempub#>
 
 SELECT DISTINCT ?creativeWork ?locationName ?lat ?long ?dateModified 
 {
-    ?cwork a cwork:CreativeWork . 
-    ?cwork cwork:tag ?geonamesId . 
-    ?cwork cwork:dateModified ?dateModified .
-    ?geonamesId geo:lat ?lat . 
+    ?creativeWork a cwork:CreativeWork .
+    ?creativeWork cwork:tag ?geonamesId .
+    GRAPH ?context {
+        ?creativeWork cwork:dateModified ?dateModified .
+    }
+    ?geonamesId geo:lat ?lat .
     ?geonamesId geo:long ?long . 
     ?geonamesId a geo-ont:Feature . 
     ?geonamesId geo-ont:name ?locationName .

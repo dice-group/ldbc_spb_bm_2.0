@@ -41,14 +41,20 @@ CONSTRUCT { ?creativeWork ?pred ?value }
 WHERE {
   {
     SELECT DISTINCT ?creativeWork {
-      ?creativeWork cwork:tag {{{cwAboutUri}}} ;
-        cwork:dateCreated ?created ;
-        cwork:primaryFormat {{{cwFormat}}} ;    
-        a {{{cwType}}}.
+      ?creativeWork cwork:tag {{{cwAboutUri}}} .
+      GRAPH ?context {
+        ?creativeWork a {{{cwType}}} ;
+          cwork:dateCreated ?created ;
+          cwork:primaryFormat {{{cwFormat}}} .
+      }
     }
     ORDER BY DESC(?created)
     LIMIT {{{randomLimit}}}
   }
-  ?creativeWork ?pred ?value.
-  FILTER (?pred NOT IN (cwork:tag, cwork:about, cwork:mention))
+
+  { ?creativeWork ?pred ?value . }
+  UNION
+  { GRAPH ?contextOuter { ?creativeWork ?pred ?value . } }
+
+  FILTER (?pred NOT IN (cwork:tag, cwork:about, cwork:mentions))
 }

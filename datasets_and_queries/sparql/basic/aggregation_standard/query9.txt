@@ -62,18 +62,18 @@ WHERE {
         SELECT (count(*) as ?cnt2_sameAs) {
         {
           SELECT DISTINCT ?other_cw (min(?ent_eq) as ?ent_c) {
-            {{{cwUri}}} cwork:about ?ent .
+            GRAPH ?ctx1 { {{{cwUri}}} cwork:about ?ent . }
             ?ent owl:sameAs ?ent_eq .
-            ?other_cw cwork:about ?ent_eq .
+            GRAPH ?ctx2 { ?other_cw cwork:about ?ent_eq . }
           } group by ?ent ?other_cw }
         }
       }
       {
         SELECT (count(*) as ?cnt2_noSameAs) {
-          {{{cwUri}}} cwork:about ?ent2 .
+          GRAPH ?ctx1 { {{{cwUri}}} cwork:about ?ent2 . }
           OPTIONAL {?ent2 owl:sameAs ?ent2_eq . }
             FILTER ( ! BOUND(?ent2_eq) )
-          ?other_cw cwork:about ?ent2 .
+          GRAPH ?ctx2 { ?other_cw cwork:about ?ent2 . }
         }
       }
     } 
@@ -84,18 +84,18 @@ WHERE {
         SELECT (count(*) as ?cnt1_5_sameAs) {
         {
           SELECT DISTINCT ?other_cw (min(?ent_eq) as ?ent_c) {
-            {{{cwUri}}} cwork:about ?ent .
+            GRAPH ?ctx1 { {{{cwUri}}} cwork:about ?ent . }
             ?ent owl:sameAs ?ent_eq .
-            ?other_cw cwork:mentions ?ent_eq .
+            GRAPH ?ctx2 { ?other_cw cwork:mentions ?ent_eq . }
           } group by ?ent ?other_cw }
         }
       }
       {
         SELECT (count(*) as ?cnt1_5_noSameAs) {
-          {{{cwUri}}} cwork:about ?ent2 .
+          GRAPH ?ctx1 { {{{cwUri}}} cwork:about ?ent2 . }
           OPTIONAL {?ent2 owl:sameAs ?ent2_eq . }
             FILTER ( ! BOUND(?ent2_eq) )
-          ?other_cw cwork:mentions ?ent2 .
+          GRAPH ?ctx2 { ?other_cw cwork:mentions ?ent2 . }
         }
       }
     } 
@@ -106,18 +106,18 @@ WHERE {
         SELECT (count(*) as ?cnt1_sameAs) {
         {
           SELECT DISTINCT ?other_cw (min(?ent_eq) as ?ent_c) {
-            {{{cwUri}}} cwork:mentions ?ent .
+            GRAPH ?ctx1 { {{{cwUri}}} cwork:mentions ?ent . }
             ?ent owl:sameAs ?ent_eq .
-            ?other_cw cwork:about ?ent_eq .
+            GRAPH ?ctx2 { ?other_cw cwork:about ?ent_eq . }
           } group by ?ent ?other_cw }
         }
       }
       {
         SELECT (count(*) as ?cnt1_noSameAs) {
-          {{{cwUri}}} cwork:mentions ?ent2 .
+          GRAPH ?ctx1 { {{{cwUri}}} cwork:mentions ?ent2 . }
           OPTIONAL {?ent2 owl:sameAs ?ent2_eq . }
             FILTER ( ! BOUND(?ent2_eq) )
-          ?other_cw cwork:about ?ent2 .
+          GRAPH ?ctx2 { ?other_cw cwork:about ?ent2 . }
         }
       }
     } 
@@ -128,18 +128,18 @@ WHERE {
         SELECT (count(*) as ?cnt_0_5_sameAs) {
         {
           SELECT DISTINCT ?other_cw (min(?ent_eq) as ?ent_c) {
-            {{{cwUri}}} cwork:mentions ?ent .
+            GRAPH ?ctx1 { {{{cwUri}}} cwork:mentions ?ent . }
             ?ent owl:sameAs ?ent_eq .
-            ?other_cw cwork:mentions ?ent_eq .
+            GRAPH ?ctx2 { ?other_cw cwork:mentions ?ent_eq . }
           } group by ?ent ?other_cw }
         }
       }
       {
         SELECT (count(*) as ?cnt_0_5_noSameAs) {
-          {{{cwUri}}} cwork:mentions ?ent2 .
+          GRAPH ?ctx1 { {{{cwUri}}} cwork:mentions ?ent2 . }
           OPTIONAL {?ent2 owl:sameAs ?ent2_eq . }
             FILTER ( ! BOUND(?ent2_eq) )
-          ?other_cw cwork:mentions ?ent2 .
+          GRAPH ?ctx2 { ?other_cw cwork:mentions ?ent2 . }
         }
       }
     } 
@@ -149,7 +149,7 @@ WHERE {
     WHERE {
       {{{cwUri}}} cwork:tag ?tag .
       ?other_creativeWork cwork:tag ?tag .
-      ?other_creativeWork cwork:dateModified ?dt .
+      GRAPH ?ctx1 { ?other_creativeWork cwork:dateModified ?dt . }
     }
     ORDER BY DESC(?dt)
     LIMIT 10        

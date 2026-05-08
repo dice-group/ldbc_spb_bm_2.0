@@ -48,9 +48,9 @@ WHERE {
   {
     SELECT DISTINCT ?creativeWork
     {
-      ?creativeWork cwork:dateCreated ?created .
       ?creativeWork cwork:tag {{{cwAboutUri}}} .
-      
+      GRAPH ?context {
+        ?creativeWork cwork:dateCreated ?created .
       {
         { ?creativeWork cwork:primaryFormat cwork:TextualFormat . }
         UNION
@@ -66,10 +66,15 @@ WHERE {
       }
       OPTIONAL { ?creativeWork cwork:audience ?audience } .
       FILTER (!BOUND(?audience) || ?audience = {{{cwAudience}}}) .
+      }
     }
     ORDER BY DESC(?created)
     LIMIT {{{randomLimit}}}
   }
-  ?creativeWork ?pred ?value.
-  FILTER (?pred NOT IN (cwork:tag, cwork:about, cwork:mention))   
+
+  { ?creativeWork ?pred ?value . }
+  UNION
+  { GRAPH ?contextOuter { ?creativeWork ?pred ?value . } }
+
+  FILTER (?pred NOT IN (cwork:tag, cwork:about, cwork:mentions))
 }

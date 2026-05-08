@@ -50,11 +50,13 @@ SELECT DISTINCT ?creativeWork ?title ?description ?dateModified ?primaryContent
       ?e a core:Thing .    
     }
   }
-  ?creativeWork cwork:tag ?e ;
-    cwork:title ?title ;
-    cwork:description ?description ;
-    cwork:dateModified ?dateModified ;
-    bbc:primaryContentOf ?primaryContent .
+  ?creativeWork cwork:tag ?e .
+  GRAPH ?context {
+    ?creativeWork  cwork:title ?title ;
+      cwork:description ?description ;
+      cwork:dateModified ?dateModified ;
+      bbc:primaryContentOf ?primaryContent .
+  }
 }
 ORDER BY DESC(?dateModified)
 LIMIT 100

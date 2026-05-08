@@ -69,35 +69,49 @@ CONSTRUCT {
 WHERE {
   {
     SELECT DISTINCT ?creativeWork
-      WHERE {
-              ?creativeWork {{{cwAboutOrMentions}}} {{{cwAboutOrMentionsUri}}} .
-              ?creativeWork a cwork:CreativeWork ;
-              cwork:dateModified ?modified .
-      }
-      ORDER BY DESC(?modified)
-      LIMIT 10
-  }
-  {
-      ?creativeWork a cwork:CreativeWork ;
-                    a ?type ;
-                    cwork:title ?title ;
-                    cwork:dateModified ?modified .
-      ?creativeWork cwork:about [ ldbcspb:prefLabel ?aboutPrefLabel ] . 
-      OPTIONAL { ?creativeWork cwork:shortTitle ?shortTitle . }
-      OPTIONAL { ?creativeWork cwork:description ?description . }
+    WHERE {
+      ?creativeWork a cwork:CreativeWork .
 
-      OPTIONAL {
-                 ?creativeWork cwork:mentions ?mentions .
-                 OPTIONAL { ?mentions ldbcspb:prefLabel ?mentionsPrefLabel . }
-               }
-      OPTIONAL { ?creativeWork cwork:dateCreated ?created . }
-      OPTIONAL { ?creativeWork cwork:primaryFormat ?primaryFormat . }
-      OPTIONAL { ?webDocument bbc:primaryContent ?creativeWork .
-                  OPTIONAL { ?webDocument bbc:webDocumentType ?webDocType . }
+      GRAPH ?context {
+        ?creativeWork {{{cwAboutOrMentions}}} {{{cwAboutOrMentionsUri}}} .
+        ?creativeWork cwork:dateModified ?modified .
       }
-      OPTIONAL { ?creativeWork cwork:thumbnail ?thumbnail .
-                 OPTIONAL { ?thumbnail cwork:altText ?thumbnailAltText . }
-                 OPTIONAL { ?thumbnail cwork:thumbnailType ?thumbnailType . }
-      }
+    }
+    ORDER BY DESC(?modified)
+    LIMIT 10
+  }
+
+  ?creativeWork a cwork:CreativeWork .
+
+  { ?creativeWork a ?type . }
+  UNION
+  { GRAPH ?context { ?creativeWork a ?type . } }
+  GRAPH ?context {
+    ?creativeWork cwork:title ?title ;
+                  cwork:dateModified ?modified ;
+                  cwork:about ?about .
+
+    OPTIONAL { ?creativeWork cwork:shortTitle ?shortTitle . }
+    OPTIONAL { ?creativeWork cwork:description ?description . }
+    OPTIONAL { ?creativeWork cwork:dateCreated ?created . }
+    OPTIONAL { ?creativeWork cwork:primaryFormat ?primaryFormat . }
+
+    OPTIONAL {
+      ?creativeWork cwork:thumbnail ?thumbnail .
+      OPTIONAL { ?thumbnail cwork:altText ?thumbnailAltText . }
+      OPTIONAL { ?thumbnail cwork:thumbnailType ?thumbnailType . }
+    }
+
+  }
+
+  ?about ldbcspb:prefLabel ?aboutPrefLabel .
+  OPTIONAL {
+    ?webDocument bbc:primaryContent ?creativeWork .
+    OPTIONAL { ?webDocument bbc:webDocumentType ?webDocType . }
+  }
+
+  OPTIONAL {
+    GRAPH ?context { ?creativeWork cwork:mentions ?mentions . }
+    OPTIONAL { ?mentions ldbcspb:prefLabel ?mentionsPrefLabel . }
   }
 }

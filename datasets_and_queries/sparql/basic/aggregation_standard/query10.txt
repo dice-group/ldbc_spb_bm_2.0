@@ -45,8 +45,10 @@ SELECT ?creativeWork ?title ?dateModified
     {{{geonamesFeatureURI}}} geo-ont:parentFeature ?location .
     ?location geo-ont:featureCode geo-ont:A.ADM1 .    
   }
-  ?creativeWork cwork:tag ?location ;
-      cwork:title ?title ;
+  ?creativeWork cwork:tag ?location .
+  GRAPH ?context {
+    ?creativeWork cwork:title ?title ;
       cwork:dateModified ?dateModified .
       {{{dateTimeRangeFilter}}}
+  }
 }
